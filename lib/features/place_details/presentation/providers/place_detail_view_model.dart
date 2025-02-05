@@ -12,13 +12,13 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:cherryrecorder_client/core/models/memo.dart';
+import 'package:memory_atlas_client/core/models/memo.dart';
 import '../../../../core/services/storage_service.dart';
 import 'package:logger/logger.dart';
-import 'package:cherryrecorder_client/core/constants/api_constants.dart';
-import 'package:cherryrecorder_client/core/models/place_detail.dart';
-import 'package:cherryrecorder_client/core/network/api_client.dart';
-import 'package:cherryrecorder_client/core/services/google_maps_service.dart';
+import 'package:memory_atlas_client/core/constants/api_constants.dart';
+import 'package:memory_atlas_client/core/models/place_detail.dart';
+import 'package:memory_atlas_client/core/network/api_client.dart';
+import 'package:memory_atlas_client/core/services/google_maps_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
