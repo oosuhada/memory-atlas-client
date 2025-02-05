@@ -24,7 +24,7 @@ class PlaceListCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? Theme.of(context).primaryColor.withOpacity(0.1)
+              ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
               : Colors.transparent,
           border: Border(
             bottom: BorderSide(color: Colors.grey.shade200, width: 1),
@@ -57,7 +57,7 @@ class PlaceListCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        place.vicinity ?? '주소 정보 없음',
+                        place.vicinity,
                         style: TextStyle(color: Colors.grey.shade600),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
