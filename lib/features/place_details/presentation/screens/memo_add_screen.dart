@@ -43,8 +43,6 @@ class _MemoAddScreenState extends State<MemoAddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<PlaceDetailViewModel>();
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
