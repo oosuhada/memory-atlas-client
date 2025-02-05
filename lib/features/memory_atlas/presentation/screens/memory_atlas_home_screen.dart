@@ -1,43 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class MemoryMoment {
-  const MemoryMoment({
-    required this.id,
-    required this.place,
-    required this.title,
-    required this.sense,
-    required this.createdAt,
-  });
-
-  final String id;
-  final String place;
-  final String title;
-  final String sense;
-  final DateTime createdAt;
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'place': place,
-      'title': title,
-      'sense': sense,
-      'createdAt': createdAt.toIso8601String(),
-    };
-  }
-
-  factory MemoryMoment.fromJson(Map<String, dynamic> json) {
-    return MemoryMoment(
-      id: json['id'] as String,
-      place: json['place'] as String,
-      title: json['title'] as String,
-      sense: json['sense'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-    );
-  }
-}
+import '../../data/memory_repository.dart';
 
 class MemoryAtlasHomeScreen extends StatefulWidget {
   const MemoryAtlasHomeScreen({super.key});
@@ -47,13 +10,15 @@ class MemoryAtlasHomeScreen extends StatefulWidget {
 }
 
 class _MemoryAtlasHomeScreenState extends State<MemoryAtlasHomeScreen> {
-  static const _storageKey = 'memory_atlas.moments.v1';
-
   final _placeController = TextEditingController();
   final _titleController = TextEditingController();
   final _senseController = TextEditingController();
+  final _repository = MemoryRepository();
 
   List<MemoryMoment> _moments = const [];
+  bool _isLoading = true;
+  bool _isSaving = false;
+  String? _syncError;
 
   @override
   void initState() {
@@ -66,61 +31,73 @@ class _MemoryAtlasHomeScreenState extends State<MemoryAtlasHomeScreen> {
     _placeController.dispose();
     _titleController.dispose();
     _senseController.dispose();
+    _repository.dispose();
     super.dispose();
   }
 
   Future<void> _loadMoments() async {
-    final preferences = await SharedPreferences.getInstance();
-    final raw = preferences.getString(_storageKey);
-    if (raw == null || raw.isEmpty) return;
-
     try {
-      final decoded = jsonDecode(raw) as List<dynamic>;
-      final moments = decoded
-          .map((item) => MemoryMoment.fromJson(item as Map<String, dynamic>))
-          .toList();
+      final moments = await _repository.list();
       if (!mounted) return;
-      setState(() => _moments = moments);
+      setState(() {
+        _moments = moments;
+        _isLoading = false;
+        _syncError = null;
+      });
     } catch (_) {
-      await preferences.remove(_storageKey);
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _syncError = '서버와 연결할 수 없습니다. 네트워크 상태를 확인해 주세요.';
+      });
     }
-  }
-
-  Future<void> _saveMoments(List<MemoryMoment> moments) async {
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setString(
-      _storageKey,
-      jsonEncode(moments.map((moment) => moment.toJson()).toList()),
-    );
   }
 
   Future<void> _addMoment() async {
     final place = _placeController.text.trim();
     final title = _titleController.text.trim();
-    if (place.isEmpty || title.isEmpty) return;
+    if (place.isEmpty || title.isEmpty || _isSaving) return;
 
-    final moment = MemoryMoment(
-      id: DateTime.now().microsecondsSinceEpoch.toString(),
-      place: place,
-      title: title,
-      sense: _senseController.text.trim(),
-      createdAt: DateTime.now(),
-    );
-    final nextMoments = [moment, ..._moments];
-    await _saveMoments(nextMoments);
-    if (!mounted) return;
-    setState(() => _moments = nextMoments);
-    _placeController.clear();
-    _titleController.clear();
-    _senseController.clear();
-    Navigator.pop(context);
+    setState(() => _isSaving = true);
+    try {
+      final moment = await _repository.create(
+        place: place,
+        title: title,
+        sense: _senseController.text.trim(),
+      );
+      if (!mounted) return;
+      setState(() {
+        _moments = [moment, ..._moments];
+        _isSaving = false;
+        _syncError = null;
+      });
+      _placeController.clear();
+      _titleController.clear();
+      _senseController.clear();
+      Navigator.pop(context);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isSaving = false;
+        _syncError = '기억을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+      });
+    }
   }
 
   Future<void> _removeMoment(String id) async {
-    final nextMoments = _moments.where((moment) => moment.id != id).toList();
-    await _saveMoments(nextMoments);
-    if (!mounted) return;
-    setState(() => _moments = nextMoments);
+    final previous = _moments;
+    setState(() => _moments = _moments.where((moment) => moment.id != id).toList());
+    try {
+      await _repository.remove(id);
+      if (!mounted) return;
+      setState(() => _syncError = null);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _moments = previous;
+        _syncError = '기억을 삭제하지 못했습니다.';
+      });
+    }
   }
 
   void _openMomentComposer() {
@@ -165,13 +142,13 @@ class _MemoryAtlasHomeScreenState extends State<MemoryAtlasHomeScreen> {
               ),
               const SizedBox(height: 18),
               FilledButton(
-                onPressed: _addMoment,
+                onPressed: _isSaving ? null : _addMoment,
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xFFD6B56D),
                   foregroundColor: const Color(0xFF121317),
                   minimumSize: const Size.fromHeight(52),
                 ),
-                child: const Text('기억 저장'),
+                child: Text(_isSaving ? '저장 중…' : '기억 저장'),
               ),
             ],
           ),
@@ -211,6 +188,10 @@ class _MemoryAtlasHomeScreenState extends State<MemoryAtlasHomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 22),
+                  if (_syncError != null) ...[
+                    _SyncNotice(message: _syncError!, onRetry: _loadMoments),
+                    const SizedBox(height: 14),
+                  ],
                   Row(
                     children: [
                       Expanded(
@@ -254,14 +235,21 @@ class _MemoryAtlasHomeScreenState extends State<MemoryAtlasHomeScreen> {
                 ],
               ),
             ),
-            if (_moments.isEmpty)
+            if (_isLoading)
+              const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: CircularProgressIndicator(color: Color(0xFFD6B56D)),
+                ),
+              )
+            else if (_moments.isEmpty)
               const SliverFillRemaining(
                 hasScrollBody: false,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: Text(
-                      '첫 장소의 첫 순간을 남겨보세요.\n기록은 이 기기 안에 먼저 안전하게 쌓입니다.',
+                      '첫 장소의 첫 순간을 남겨보세요.\n기록은 Memory Atlas에 안전하게 동기화됩니다.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white38, height: 1.6),
                     ),
@@ -333,6 +321,35 @@ class _MemoryAtlasHomeScreenState extends State<MemoryAtlasHomeScreen> {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SyncNotice extends StatelessWidget {
+  const _SyncNotice({required this.message, required this.onRetry});
+
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.cloud_off_outlined, size: 18, color: Colors.white54),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(message, style: const TextStyle(color: Colors.white54, fontSize: 12)),
+          ),
+          TextButton(onPressed: onRetry, child: const Text('다시 연결')),
+        ],
       ),
     );
   }
