@@ -101,7 +101,7 @@ class _MapScreenState extends State<MapScreen> {
           // 초기화 로딩 오버레이: 권한 요청 등 초기 작업 중에 표시됩니다.
           if (_isInitializing)
             Container(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -317,8 +317,6 @@ class _MapScreenState extends State<MapScreen> {
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOut,
       );
-    } else if (selectedId == null) {
-      _lastScrolledPlaceId = null;
     }
   }
 
@@ -327,7 +325,7 @@ class _MapScreenState extends State<MapScreen> {
     if (!viewModel.isLoading) return const SizedBox.shrink();
 
     return Container(
-      color: Colors.black.withOpacity(0.3),
+      color: Colors.black.withValues(alpha: 0.3),
       child: const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
