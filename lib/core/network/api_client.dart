@@ -25,7 +25,7 @@ class ApiClient {
   /// [client]와 [baseUrl]은 필수 매개변수이다.
   ApiClient({required this.client, required String baseUrl}) {
     // 안드로이드 환경에서 localhost를 10.0.2.2로 변경 (에뮬레이터 지원)
-    if (!kIsWeb && baseUrl.contains('localhost')) {
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android && baseUrl.contains('localhost')) {
       this.baseUrl = baseUrl.replaceAll('localhost', '10.0.2.2');
       _logger.i('ApiClient 초기화: localhost를 10.0.2.2로 자동 변경 - ${this.baseUrl}');
     } else {
@@ -144,6 +144,19 @@ class ApiClient {
       _logger.e('API POST 요청 오류 ($endpoint): $e');
       _logger.d('❌ API 오류: $e');
       throw Exception('네트워크 오류가 발생했습니다: $e'); // 사용자 친화적 메시지
+    }
+  }
+
+  Future<Map<String, dynamic>> delete(String endpoint) async {
+    final uri = Uri.parse('$baseUrl$endpoint');
+    _logger.d('DELETE Request URI: $uri');
+
+    try {
+      final response = await client.delete(uri, headers: _getHeaders());
+      return _processResponse(response);
+    } catch (e) {
+      _logger.e('API DELETE 요청 오류 ($endpoint): $e');
+      throw Exception('네트워크 오류가 발생했습니다: $e');
     }
   }
 
