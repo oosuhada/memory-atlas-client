@@ -1,9 +1,8 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
 
 // 모의 클래스 자동 생성을 위한 어노테이션
@@ -338,7 +337,7 @@ Future<void> getPlaceDetails(
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(utf8.decode(response.bodyBytes));
+      jsonDecode(utf8.decode(response.bodyBytes));
 
       logger.i('✅ 장소 상세 정보 조회 성공');
 
