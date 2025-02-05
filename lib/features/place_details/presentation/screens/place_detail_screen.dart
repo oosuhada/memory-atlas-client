@@ -12,9 +12,9 @@ import '../../../../core/models/place.dart'; // 패키지 상대 경로 사용
 // LatLng 타입 사용을 위해 추가
 import '../providers/place_detail_view_model.dart';
 import 'memo_add_screen.dart'; // 메모 추가 화면
-import 'package:cherryrecorder_client/core/services/google_maps_service.dart';
-import 'package:cherryrecorder_client/features/place_details/presentation/widgets/memo_card.dart'; // MemoCard 임포트
-import 'package:cherryrecorder_client/core/models/place_detail.dart';
+import 'package:memory_atlas_client/core/services/google_maps_service.dart';
+import 'package:memory_atlas_client/features/place_details/presentation/widgets/memo_card.dart'; // MemoCard 임포트
+import 'package:memory_atlas_client/core/models/place_detail.dart';
 
 /// 장소 상세 정보를 표시하는 화면 위젯입니다.
 ///
@@ -246,6 +246,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
   /// 화면이 닫힌 후에는 메모 목록을 새로고침하여 변경사항을 반영합니다.
   void _navigateToAddOrEditMemo(BuildContext context, PlaceDetail placeDetail,
       {Memo? existingMemo}) {
+    final viewModel = context.read<PlaceDetailViewModel>();
     // `PlaceDetail` 모델을 `MemoAddScreen`이 요구하는 `Place` 모델로 변환합니다.
     final placeForMemo = Place(
       id: placeDetail.placeId,
@@ -265,7 +266,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
     ).then((_) {
       // `then` 콜백은 화면이 `pop`으로 닫힐 때 호출됩니다.
       if (mounted) {
-        context.read<PlaceDetailViewModel>().loadMemos(placeId);
+        viewModel.loadMemos(placeId);
       }
     });
   }
