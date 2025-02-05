@@ -16,20 +16,20 @@ import 'package:logger/logger.dart';
 import 'core/services/storage_service.dart'; // 스토리지 서비스 추가
 // Memo 모델 임포트 추가
 
-/// `CherryRecorderApp`은 애플리케이션의 최상위 상태 관리 위젯입니다.
+/// `MemoryAtlasApp`은 애플리케이션의 최상위 상태 관리 위젯입니다.
 ///
 /// `StatefulWidget`으로 구현되어 앱의 생명주기(life-cycle) 동안
 /// 필요한 초기화 작업을 수행합니다.
-class CherryRecorderApp extends StatefulWidget {
+class MemoryAtlasApp extends StatefulWidget {
   /// 기본 생성자입니다.
-  const CherryRecorderApp({super.key});
+  const MemoryAtlasApp({super.key});
 
   @override
-  State<CherryRecorderApp> createState() => _CherryRecorderAppState();
+  State<MemoryAtlasApp> createState() => _MemoryAtlasAppState();
 }
 
-/// `CherryRecorderApp`의 상태를 관리하는 `State` 클래스입니다.
-class _CherryRecorderAppState extends State<CherryRecorderApp> {
+/// `MemoryAtlasApp`의 상태를 관리하는 `State` 클래스입니다.
+class _MemoryAtlasAppState extends State<MemoryAtlasApp> {
   /// 로컬 데이터 저장을 위한 서비스입니다.
   ///
   /// `_initializeStorageService` 메서드를 통해 비동기적으로 초기화됩니다.
