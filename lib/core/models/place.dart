@@ -24,7 +24,7 @@ class Place {
     return Place(
       id: summary.placeId,
       name: summary.name,
-      address: summary.vicinity ?? '주소 정보 없음',
+      address: summary.vicinity,
       location: summary.location,
       acceptsCreditCard: true, // 기본값으로 true 설정 (서버에서 제공하는 경우 수정 필요)
     );
