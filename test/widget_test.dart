@@ -8,12 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:memory_atlas_client/app.dart';
+import 'package:cherryrecorder_client/app.dart';
 
 void main() {
   testWidgets('App starts smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MemoryAtlasApp());
+    await tester.pumpWidget(const CherryRecorderApp());
 
     // 앱 시작 시 초기화 화면(로딩)이 보이는지 확인
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
