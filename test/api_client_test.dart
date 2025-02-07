@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:memory_atlas_client/core/network/api_client.dart'; // 실제 ApiClient 경로
+import 'package:cherryrecorder_client/core/network/api_client.dart'; // 실제 ApiClient 경로
 
 // Mockito 코드 생성을 위한 어노테이션 (http.Client 모의 객체 생성)
 @GenerateMocks([http.Client])
