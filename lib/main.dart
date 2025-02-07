@@ -5,7 +5,7 @@
 /// 2. 플랫폼별(웹, 안드로이드) API 기본 URL 및 API 키를 설정합니다.
 /// 3. 핵심 서비스인 `GoogleMapsService`를 초기화합니다.
 /// 4. `Provider`를 사용하여 앱 전역에서 사용될 ViewModel들을 설정합니다.
-/// 5. 앱의 루트 위젯인 `MemoryAtlasApp`을 실행합니다.
+/// 5. 앱의 루트 위젯인 `CherryRecorderApp`을 실행합니다.
 /// 6. 앱 초기화 과정에서 발생하는 모든 예외를 처리하고, 오류 발생 시 간단한 오류 화면을 표시합니다.
 library;
 
@@ -101,7 +101,7 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (_) => PlaceDetailViewModel()),
           ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ],
-        child: const MemoryAtlasApp(),
+        child: const CherryRecorderApp(),
       ),
     );
   } catch (e, stackTrace) {
