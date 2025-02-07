@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io' show Platform; // Platform import
 
-import 'package:memory_atlas_client/core/utils/dialog_utils.dart';
+import 'package:cherryrecorder_client/core/utils/dialog_utils.dart';
 import 'package:flutter/foundation.dart'; // kIsWeb, kDebugMode import
 import 'package:flutter/material.dart';
 // RawKeyboardListener 사용을 위해 추가
