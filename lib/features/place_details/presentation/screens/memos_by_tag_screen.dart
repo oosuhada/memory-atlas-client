@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/models/memo.dart';
-import 'package:memory_atlas_client/features/place_details/presentation/widgets/memo_card.dart';
+import 'package:cherryrecorder_client/features/place_details/presentation/widgets/memo_card.dart';
 import '../../../../core/services/storage_service.dart';
 
 /// 특정 태그가 포함된 모든 메모 목록을 보여주는 화면
