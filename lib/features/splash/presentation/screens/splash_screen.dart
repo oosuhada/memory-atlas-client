@@ -19,14 +19,14 @@ class _SplashScreenState extends State<SplashScreen> {
     // 2초 후 메인 화면으로 자동 이동
     Timer(const Duration(seconds: 2), () {
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/atlas');
+      Navigator.pushReplacementNamed(context, '/map');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF101114),
+      backgroundColor: const Color(0xFFDE3B3B), // 체리색 배경
       body: SafeArea(
         child: Stack(
           // Column을 Stack으로 변경하여 위치를 자유롭게 조정
@@ -36,16 +36,10 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SvgPicture.asset('assets/images/logo.svg', width: 86, height: 90),
-                  const SizedBox(height: 22),
-                  const Text(
-                    'MEMORY ATLAS',
-                    style: TextStyle(
-                      color: Color(0xFFD6B56D),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 2.2,
-                    ),
+                  SvgPicture.asset(
+                    'assets/images/logo.svg',
+                    width: 120,
+                    height: 124,
                   ),
                 ],
               ),
@@ -56,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 48.0), // 하단 여백 추가
                 child: const Text(
-                  'Places become memories.',
+                  '나만의 혜택 기록장',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 16,
