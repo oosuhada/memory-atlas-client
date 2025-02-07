@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-// import 'package:memory_atlas_client/features/map/presentation/screens/map_screen.dart' show Place; // Remove this old import
-import 'package:memory_atlas_client/core/models/place.dart'; // Import Place from core/models
-import 'package:memory_atlas_client/core/models/place_detail.dart';
-import 'package:memory_atlas_client/features/place_details/presentation/providers/place_detail_view_model.dart';
-import 'package:memory_atlas_client/features/place_details/presentation/screens/place_detail_screen.dart';
-import 'package:memory_atlas_client/features/place_details/presentation/screens/memo_add_screen.dart';
-import 'package:memory_atlas_client/core/models/memo.dart'; // Memo 모델 임포트
+// import 'package:cherryrecorder_client/features/map/presentation/screens/map_screen.dart' show Place; // Remove this old import
+import 'package:cherryrecorder_client/core/models/place.dart'; // Import Place from core/models
+import 'package:cherryrecorder_client/core/models/place_detail.dart';
+import 'package:cherryrecorder_client/features/place_details/presentation/providers/place_detail_view_model.dart';
+import 'package:cherryrecorder_client/features/place_details/presentation/screens/place_detail_screen.dart';
+import 'package:cherryrecorder_client/features/place_details/presentation/screens/memo_add_screen.dart';
+import 'package:cherryrecorder_client/core/models/memo.dart'; // Memo 모델 임포트
 import 'package:google_maps_flutter/google_maps_flutter.dart'; // LatLng 임포트
 
 class FakePlaceDetailViewModel extends PlaceDetailViewModel {
