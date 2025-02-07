@@ -17,7 +17,7 @@ class MyHttpOverrides extends HttpOverrides {
       ..idleTimeout = const Duration(seconds: 30);
 
     // User-Agent 헤더 추가로 호환성 개선
-    client.userAgent = 'Memory Atlas';
+    client.userAgent = 'CherryRecorder';
 
     return client;
   }
