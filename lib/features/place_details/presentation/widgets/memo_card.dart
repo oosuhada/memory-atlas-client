@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memory_atlas_client/core/models/memo.dart';
+import 'package:cherryrecorder_client/core/models/memo.dart';
 
 /// 메모 정보를 표시하는 카드 위젯
 class MemoCard extends StatelessWidget {
