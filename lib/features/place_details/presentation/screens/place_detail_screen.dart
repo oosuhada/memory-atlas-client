@@ -12,9 +12,9 @@ import '../../../../core/models/place.dart'; // 패키지 상대 경로 사용
 // LatLng 타입 사용을 위해 추가
 import '../providers/place_detail_view_model.dart';
 import 'memo_add_screen.dart'; // 메모 추가 화면
-import 'package:memory_atlas_client/core/services/google_maps_service.dart';
-import 'package:memory_atlas_client/features/place_details/presentation/widgets/memo_card.dart'; // MemoCard 임포트
-import 'package:memory_atlas_client/core/models/place_detail.dart';
+import 'package:cherryrecorder_client/core/services/google_maps_service.dart';
+import 'package:cherryrecorder_client/features/place_details/presentation/widgets/memo_card.dart'; // MemoCard 임포트
+import 'package:cherryrecorder_client/core/models/place_detail.dart';
 
 /// 장소 상세 정보를 표시하는 화면 위젯입니다.
 ///
