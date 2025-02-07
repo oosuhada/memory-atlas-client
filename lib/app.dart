@@ -11,25 +11,24 @@ import 'features/map/presentation/screens/map_screen.dart'; // 맵 스크린 임
 import 'features/place_details/presentation/screens/place_detail_screen.dart'; // 상세 스크린 임포트 추가
 import 'features/place_details/presentation/screens/memos_by_tag_screen.dart'; // 태그별 메모 스크린 임포트 추가
 import 'features/chat/presentation/screens/chat_screen.dart'; // 채팅 스크린 임포트 추가
-import 'features/memory_atlas/presentation/screens/memory_atlas_home_screen.dart';
 import 'package:logger/logger.dart';
 import 'core/services/storage_service.dart'; // 스토리지 서비스 추가
 // Memo 모델 임포트 추가
 
-/// `MemoryAtlasApp`은 애플리케이션의 최상위 상태 관리 위젯입니다.
+/// `CherryRecorderApp`은 애플리케이션의 최상위 상태 관리 위젯입니다.
 ///
 /// `StatefulWidget`으로 구현되어 앱의 생명주기(life-cycle) 동안
 /// 필요한 초기화 작업을 수행합니다.
-class MemoryAtlasApp extends StatefulWidget {
+class CherryRecorderApp extends StatefulWidget {
   /// 기본 생성자입니다.
-  const MemoryAtlasApp({super.key});
+  const CherryRecorderApp({super.key});
 
   @override
-  State<MemoryAtlasApp> createState() => _MemoryAtlasAppState();
+  State<CherryRecorderApp> createState() => _CherryRecorderAppState();
 }
 
-/// `MemoryAtlasApp`의 상태를 관리하는 `State` 클래스입니다.
-class _MemoryAtlasAppState extends State<MemoryAtlasApp> {
+/// `CherryRecorderApp`의 상태를 관리하는 `State` 클래스입니다.
+class _CherryRecorderAppState extends State<CherryRecorderApp> {
   /// 로컬 데이터 저장을 위한 서비스입니다.
   ///
   /// `_initializeStorageService` 메서드를 통해 비동기적으로 초기화됩니다.
@@ -147,7 +146,7 @@ class _MemoryAtlasAppState extends State<MemoryAtlasApp> {
 
     // 초기화 완료 후 메인 앱 UI 빌드
     return MaterialApp(
-      title: 'Memory Atlas',
+      title: '체리 레코더',
       debugShowCheckedModeBanner: false,
       theme: theme,
       // 웹 특화 설정
@@ -188,9 +187,6 @@ class _MemoryAtlasAppState extends State<MemoryAtlasApp> {
           break;
         case '/map':
           page = const MapScreen();
-          break;
-        case '/atlas':
-          page = const MemoryAtlasHomeScreen();
           break;
         case '/chat':
           page = const ChatScreen();
